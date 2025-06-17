@@ -20,6 +20,7 @@ body {
     height: 100px;
     position: relative;
     margin: 2rem 0;
+    overflow: visible;
 }
 
 .corgi {
@@ -30,7 +31,9 @@ body {
     top: 50%;
     transform: translateY(-50%);
     background-image: url('corgi-sprite.png');
-    background-size: 200px 30px; /* 4フレーム分の横サイズ */
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
     animation: walk 1s steps(4) infinite;
 }
 
