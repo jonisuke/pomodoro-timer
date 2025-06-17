@@ -25,12 +25,12 @@ body {
 .corgi {
     width: 50px;
     height: 30px;
-    background-color: #ff9900;
     position: absolute;
     right: 0;
     top: 50%;
     transform: translateY(-50%);
-    border-radius: 10px;
+    background-image: url('corgi-sprite.png');
+    background-size: 200px 30px; /* 4フレーム分の横サイズ */
     animation: walk 1s steps(4) infinite;
 }
 
