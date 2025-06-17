@@ -84,8 +84,21 @@ class PomodoroTimer {
         
         // コーギーの移動アニメーションを開始
         const totalTime = this.workTime; // タイマーの総時間（秒）
-        this.corgi.style.transition = `right ${totalTime * 1000}ms linear`;
-        this.corgi.style.right = `${this.corgiContainer.offsetWidth - 50}px`;
+        const moveInterval = totalTime * 1000 / 100; // 100フレームで移動
+        
+        // 移動アニメーションの開始
+        this.moveIntervalId = setInterval(() => {
+            if (this.workTime <= 0) {
+                clearInterval(this.moveIntervalId);
+                this.moveIntervalId = null;
+                this.corgi.style.right = '0';
+                this.stopCorgiWalkAnimation();
+            } else {
+                const progress = (totalTime - this.workTime) / totalTime;
+                const position = (this.corgiContainer.offsetWidth - 50) * progress;
+                this.corgi.style.right = `${this.corgiContainer.offsetWidth - 50 - position}px`;
+            }
+        }, moveInterval / 100);
         
         this.intervalId = setInterval(() => {
             if (this.workTime <= 0) {
@@ -100,11 +113,6 @@ class PomodoroTimer {
             } else {
                 this.workTime--;
                 this.updateTimerDisplay();
-                
-                // コーギーの位置をタイマーの残り時間に合わせて更新
-                const progress = (totalTime - this.workTime) / totalTime;
-                const position = (this.corgiContainer.offsetWidth - 50) * progress;
-                this.corgi.style.right = `${this.corgiContainer.offsetWidth - 50 - position}px`;
             }
         }, 1000);
     }
@@ -113,6 +121,10 @@ class PomodoroTimer {
         if (!this.isRunning) return;
         
         clearInterval(this.intervalId);
+        if (this.moveIntervalId) {
+            clearInterval(this.moveIntervalId);
+            this.moveIntervalId = null;
+        }
         this.isRunning = false;
         
         // コーギーの歩みアニメーションを停止
@@ -132,6 +144,12 @@ class PomodoroTimer {
         // コーギーをリセット
         this.corgi.style.right = '0';
         this.stopCorgiWalkAnimation();
+        
+        // 移動アニメーションのリセット
+        if (this.moveIntervalId) {
+            clearInterval(this.moveIntervalId);
+            this.moveIntervalId = null;
+        }
     }
 }
 
