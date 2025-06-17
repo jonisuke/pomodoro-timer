@@ -17,6 +17,8 @@ class PomodoroTimer {
         this.resetButton = document.getElementById('resetButton');
         this.workTimeInput = document.getElementById('workTime');
         this.breakTimeInput = document.getElementById('breakTime');
+        this.corgi = document.querySelector('.corgi');
+        this.corgiContainer = document.querySelector('.corgi-container');
     }
 
     initializeEventListeners() {
@@ -53,11 +55,22 @@ class PomodoroTimer {
         this.stopButton.disabled = false;
         this.resetButton.disabled = true;
         
+        // コーギーの初期位置を設定
+        this.corgi.style.right = '0';
+        
+        // コーギーの移動アニメーションを開始
+        this.corgi.style.transition = `right ${this.workTime}ms linear`;
+        this.corgi.style.right = `${this.corgiContainer.offsetWidth - 50}px`;
+        
         this.intervalId = setInterval(() => {
             if (this.workTime <= 0) {
                 this.isWorking = !this.isWorking;
                 this.workTime = this.isWorking ? this.workTimeInput.value * 60 : this.breakTimeInput.value * 60;
                 this.updateTimerDisplay();
+                
+                // タイマーが終了したときにコーギーをリセット
+                this.corgi.style.removeProperty('transition');
+                this.corgi.style.right = '0';
             } else {
                 this.workTime--;
                 this.updateTimerDisplay();
