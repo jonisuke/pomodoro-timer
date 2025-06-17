@@ -58,6 +58,9 @@ class PomodoroTimer {
         // コーギーの初期位置を設定
         this.corgi.style.right = '0';
         
+        // コーギーの歩みアニメーションを開始
+        this.corgi.classList.remove('paused');
+        
         // コーギーの移動アニメーションを開始
         const totalTime = this.workTime; // タイマーの総時間（秒）
         this.corgi.style.transition = `right ${totalTime * 1000}ms linear`;
@@ -72,6 +75,7 @@ class PomodoroTimer {
                 // タイマーが終了したときにコーギーをリセット
                 this.corgi.style.removeProperty('transition');
                 this.corgi.style.right = '0';
+                this.corgi.classList.add('paused');
             } else {
                 this.workTime--;
                 this.updateTimerDisplay();
@@ -90,6 +94,9 @@ class PomodoroTimer {
         clearInterval(this.intervalId);
         this.isRunning = false;
         
+        // コーギーの歩みアニメーションを停止
+        this.corgi.classList.add('paused');
+        
         this.startButton.disabled = false;
         this.stopButton.disabled = true;
         this.resetButton.disabled = false;
@@ -100,6 +107,9 @@ class PomodoroTimer {
         this.workTime = parseInt(this.workTimeInput.value) * 60;
         this.isWorking = true;
         this.updateTimerDisplay();
+        
+        // コーギーをリセット
+        this.corgi.style.right = '0';
     }
 }
 
