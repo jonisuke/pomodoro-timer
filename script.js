@@ -19,10 +19,6 @@ class PomodoroTimer {
         this.breakTimeInput = document.getElementById('breakTime');
         this.corgi = document.querySelector('.corgi');
         this.corgiContainer = document.querySelector('.corgi-container');
-        
-        // コーギーの歩みフレームの初期設定
-        this.corgiFrame = 0;
-        this.walkInterval = null;
     }
 
     initializeEventListeners() {
@@ -45,22 +41,7 @@ class PomodoroTimer {
         });
     }
 
-    // コーギーの歩みアニメーションを開始
-    startCorgiWalkAnimation() {
-        this.corgiFrame = 0;
-        this.walkInterval = setInterval(() => {
-            this.corgiFrame = (this.corgiFrame + 1) % 4;
-            this.corgi.style.backgroundPosition = `-${this.corgiFrame * 50}px 0`;
-        }, 250); // 4フレーム * 250ms = 1秒のアニメーション
-    }
 
-    // コーギーの歩みアニメーションを停止
-    stopCorgiWalkAnimation() {
-        if (this.walkInterval) {
-            clearInterval(this.walkInterval);
-            this.walkInterval = null;
-        }
-    }
 
     updateTimerDisplay() {
         const minutes = Math.floor(this.workTime / 60);
@@ -79,9 +60,6 @@ class PomodoroTimer {
         // コーギーの初期位置を設定
         this.corgi.style.right = '0';
         
-        // コーギーの歩みアニメーションを開始
-        this.startCorgiWalkAnimation();
-        
         // コーギーの移動アニメーションを開始
         const totalTime = this.workTime; // タイマーの総時間（秒）
         const moveInterval = totalTime * 1000 / 100; // 100フレームで移動
@@ -92,7 +70,6 @@ class PomodoroTimer {
                 clearInterval(this.moveIntervalId);
                 this.moveIntervalId = null;
                 this.corgi.style.right = '0';
-                this.stopCorgiWalkAnimation();
             } else {
                 const progress = (totalTime - this.workTime) / totalTime;
                 const position = (this.corgiContainer.offsetWidth - 50) * progress;
@@ -109,7 +86,6 @@ class PomodoroTimer {
                 // タイマーが終了したときにコーギーをリセット
                 this.corgi.style.removeProperty('transition');
                 this.corgi.style.right = '0';
-                this.stopCorgiWalkAnimation();
             } else {
                 this.workTime--;
                 this.updateTimerDisplay();

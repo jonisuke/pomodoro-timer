@@ -31,9 +31,9 @@ body {
     top: 50%;
     transform: translateY(-50%);
     background-image: url('corgi-sprite.png');
-    background-size: 200px 30px;
+    background-size: cover;
     background-repeat: no-repeat;
-    background-position: 0 0;
+    background-position: center;
 }
 
 @keyframes walk {
