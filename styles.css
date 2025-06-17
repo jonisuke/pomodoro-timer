@@ -34,11 +34,6 @@ body {
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
-    animation: walk 1s steps(4) infinite;
-}
-
-.corgi.paused {
-    animation-play-state: paused;
 }
 
 @keyframes walk {
